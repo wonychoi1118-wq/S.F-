@@ -711,8 +711,9 @@
         });
         document.getElementById('feedbackContent').value = '';
       } catch (error) {
-        alert('등록 오류');
-      }
+  console.error("상세 에러:", error);
+  alert('등록 오류: ' + error.message);
+}
     });
 
     function initBoardListener() {
