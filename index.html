@@ -6,7 +6,14 @@
   <title>급식 알레르기 학생 관리 앱</title>
   <style>
     * { box-sizing: border-box; }
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background-color: #f4f7f6; color: #333; }
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      margin: 0; 
+      padding: 20px; 
+      padding-bottom: 90px; /* 하단 플로팅 바 여백 */
+      background-color: #f4f7f6; 
+      color: #333; 
+    }
     h1 { color: #2c3e50; text-align: center; margin-bottom: 20px; }
     
     /* 네비게이션 버튼 */
@@ -27,31 +34,54 @@
     button.submit-btn:hover { background-color: #2980b9; }
 
     /* 스크롤형 학생 리스트 */
-    .filter-container { display: flex; gap: 10px; margin-bottom: 15px; align-items: center; }
-    .filter-container select { width: 130px; }
+    .filter-container { display: flex; gap: 10px; margin-bottom: 15px; align-items: center; flex-wrap: wrap; }
+    .filter-container select { width: 120px; }
     
-    .scroll-list { max-height: 400px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; padding: 12px; background: #fafafa; }
+    .scroll-list { max-height: 450px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; padding: 12px; background: #fafafa; }
     .student-card { border: 1px solid #e0e0e0; padding: 12px; margin-bottom: 10px; border-radius: 6px; background: #fff; transition: all 0.3s ease; }
     
     /* 빨간색 강조 표시 */
     .student-card.highlight-red { background-color: #ffe6e6 !important; border: 2px solid #e74c3c !important; color: #c0392b !important; font-weight: bold; }
     .warning-tag { color: #e74c3c; font-weight: bold; margin-top: 5px; display: inline-block; }
 
-    /* 텍스트 입력 분석 영역 */
-    textarea { resize: vertical; }
+    /* 하단 고정 플로팅 바 */
+    .floating-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      padding: 12px 20px;
+      box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.15);
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      z-index: 1000;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .floating-bar textarea {
+      flex: 1;
+      height: 45px;
+      resize: none;
+    }
+    .floating-bar button {
+      width: auto;
+      white-space: nowrap;
+      height: 45px;
+      margin-top: 0;
+    }
   </style>
 </head>
 <body>
 
   <h1>🏫 급식 식단 & 알레르기 학생 관리 시스템</h1>
 
-  <!-- 페이지 이동 버튼 -->
   <div class="nav-container">
     <button class="nav-btn active" onclick="switchPage('registerPage', this)">학생 등록 페이지</button>
-    <button class="nav-btn" onclick="switchPage('listPage', this)">학생 리스트 & 급식 분석</button>
+    <button class="nav-btn" onclick="switchPage('listPage', this)">학생 리스트 조회</button>
   </div>
 
-  <!-- 1. 학생 정보 입력 페이지 -->
   <div id="registerPage" class="page active">
     <div class="card">
       <h2>📝 학생 정보 등록</h2>
@@ -59,8 +89,8 @@
         <div>
           <label>학년 / 반 / 번호</label>
           <div style="display: flex; gap: 10px;">
-            <input type="number" id="grade" placeholder="학년" required min="1">
-            <input type="number" id="classNum" placeholder="반" required min="1">
+            <input type="number" id="grade" placeholder="학년(1~6)" required min="1" max="6">
+            <input type="number" id="classNum" placeholder="반(1~12)" required min="1" max="12">
             <input type="number" id="studentNum" placeholder="번호" required min="1">
           </div>
         </div>
@@ -85,12 +115,10 @@
     </div>
   </div>
 
-  <!-- 2. 학년/반별 스크롤 리스트 및 급식 텍스트 분석 페이지 -->
   <div id="listPage" class="page">
     <div class="card">
       <h2>📋 학년 및 반별 학생 리스트</h2>
       
-      <!-- 조회 필터 -->
       <div class="filter-container">
         <label style="margin: 0; width: auto;">필터 선택:</label>
         <select id="filterGrade" onchange="renderStudents()">
@@ -98,33 +126,47 @@
           <option value="1">1학년</option>
           <option value="2">2학년</option>
           <option value="3">3학년</option>
+          <option value="4">4학년</option>
+          <option value="5">5학년</option>
+          <option value="6">6학년</option>
         </select>
         <select id="filterClass" onchange="renderStudents()">
           <option value="all">전체 반</option>
           <option value="1">1반</option>
           <option value="2">2반</option>
           <option value="3">3반</option>
+          <option value="4">4반</option>
+          <option value="5">5반</option>
+          <option value="6">6반</option>
+          <option value="7">7반</option>
+          <option value="8">8반</option>
+          <option value="9">9반</option>
+          <option value="10">10반</option>
+          <option value="11">11반</option>
+          <option value="12">12반</option>
         </select>
+
+        <button id="toggleWarningFilterBtn" onclick="toggleWarningFilter()" style="width: auto; background-color: #e74c3c; color: white; padding: 8px 12px; margin: 0; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+          ⚠️ 주의 대상만 보기: OFF
+        </button>
       </div>
 
-      <!-- 스크롤형 리스트 -->
       <div id="studentList" class="scroll-list"></div>
-    </div>
-
-    <!-- 리스트 아래 텍스트 입력 박스 (AI 분석) -->
-    <div class="card">
-      <h2>🍲 오늘의 급식 메뉴 입력 (AI 분석)</h2>
-      <textarea id="menuTextInput" rows="4" placeholder="오늘의 급식 메뉴 텍스트를 입력해 주세요. (예: 현미밥, 쇠고기미역국(16), 제육볶음(5,10), 포도)"></textarea>
-      <button onclick="analyzeText()" class="submit-btn" style="background-color: #27ae60;">급식 메뉴 AI 분석 실행</button>
       
       <div id="status" style="margin-top: 12px; font-weight: bold;"></div>
-      <div id="detectedInfo" style="margin-top: 8px;"></div>
+      <div id="detectedInfo" style="margin-top: 5px;"></div>
     </div>
+  </div>
+
+  <div class="floating-bar">
+    <textarea id="menuTextInput" placeholder="오늘의 급식 메뉴 입력 (예: 현미밥, 쇠고기미역국(16), 제육볶음(5,10))"></textarea>
+    <button onclick="analyzeText()" class="submit-btn" style="background-color: #27ae60;">AI 분석 실행</button>
   </div>
 
   <script>
     let students = [];
     let activeFoodNumbers = []; // AI가 인식한 오늘 급식의 알레르기 번호들
+    let showOnlyWarning = false; // 주의 대상만 보기 상태 변수
 
     // 페이지 전환 함수
     function switchPage(pageId, btnElement) {
@@ -159,6 +201,22 @@
       document.getElementById('studentForm').reset();
     });
 
+    // 주의 대상만 보기 버튼 토글
+    function toggleWarningFilter() {
+      showOnlyWarning = !showOnlyWarning;
+      const btn = document.getElementById('toggleWarningFilterBtn');
+      
+      if (showOnlyWarning) {
+        btn.innerText = '⚠️ 주의 대상만 보기: ON';
+        btn.style.backgroundColor = '#c0392b';
+      } else {
+        btn.innerText = '⚠️ 주의 대상만 보기: OFF';
+        btn.style.backgroundColor = '#e74c3c';
+      }
+      
+      renderStudents();
+    }
+
     // 스크롤형 학생 목록 렌더링
     function renderStudents() {
       const listDiv = document.getElementById('studentList');
@@ -170,20 +228,25 @@
       const filtered = students.filter(s => {
         const matchGrade = selectedGrade === 'all' || s.grade === selectedGrade;
         const matchClass = selectedClass === 'all' || s.classNum === selectedClass;
-        return matchGrade && matchClass;
+        
+        // AI 식단 번호와 충돌 체크
+        const hasConflict = s.restrictedFoods.some(num => activeFoodNumbers.includes(num));
+        
+        // 주의 대상만 보기 조건 체크
+        const matchWarning = !showOnlyWarning || hasConflict;
+
+        return matchGrade && matchClass && matchWarning;
       });
 
       if (filtered.length === 0) {
-        listDiv.innerHTML = '<p style="text-align:center; color:#888;">등록된 학생이 없거나 해당 학년/반에 일치하는 학생이 없습니다.</p>';
+        listDiv.innerHTML = '<p style="text-align:center; color:#888;">등록된 학생이 없거나 조건에 일치하는 학생이 없습니다.</p>';
         return;
       }
 
       filtered.forEach(s => {
-        // AI가 인식한 알레르기 번호 중 학생이 못 먹는 번호가 포함되어 있는지 확인
         const hasConflict = s.restrictedFoods.some(num => activeFoodNumbers.includes(num));
 
         const card = document.createElement('div');
-        // 충돌 발생 시 빨간색 강조 클래스(highlight-red) 적용
         card.className = `student-card ${hasConflict ? 'highlight-red' : ''}`;
         
         card.innerHTML = `
@@ -225,7 +288,8 @@
           statusDiv.style.color = '#27ae60';
           statusDiv.innerText = '분석 완료!';
           detectedDiv.innerHTML = `<strong>오늘 급식 추출 알레르기 번호:</strong> [${activeFoodNumbers.join(', ')}]`;
-          // 리스트 즉시 갱신 (빨간색 강조 반영)
+          
+          // 리스트 갱신 (빨간색 강조 적용)
           renderStudents();
         } else {
           statusDiv.style.color = '#e74c3c';
