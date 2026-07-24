@@ -48,7 +48,7 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
       margin: 0; 
       padding: 16px; 
-      padding-bottom: 110px; 
+      padding-bottom: 110px; /* 하단 플로팅 바를 위한 여백 */
       background-color: var(--background); 
       color: var(--on-surface); 
       -webkit-font-smoothing: antialiased;
@@ -211,7 +211,7 @@
       border: 1px solid var(--surface-container-high); 
       padding: 16px; 
       margin-bottom: 12px; 
-      border-radius: var(--radius-lg); 
+      border-radius: var(--radius-md); 
       background: var(--surface); 
       display: flex;
       flex-direction: column;
@@ -229,7 +229,7 @@
     }
     .type-chip {
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 600;
       padding: 4px 10px;
       border-radius: var(--radius-full);
       background-color: var(--surface-container);
@@ -248,10 +248,6 @@
     .student-card.highlight-red .student-name {
       color: var(--tertiary);
     }
-    .student-card.highlight-red .type-chip {
-      background-color: var(--tertiary);
-      color: #ffffff;
-    }
     .warning-tag { 
       color: var(--tertiary); 
       font-weight: 700; 
@@ -262,7 +258,7 @@
       margin-top: 4px;
       background: #ffffff;
       padding: 4px 8px;
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-sm);
       border: 1px solid var(--tertiary);
       width: fit-content;
     }
@@ -272,7 +268,7 @@
       border: 1px solid var(--surface-container-high);
       padding: 16px;
       margin-bottom: 12px;
-      border-radius: var(--radius-lg);
+      border-radius: var(--radius-md);
       background: var(--surface);
     }
     .feedback-header {
@@ -372,7 +368,7 @@
       serverTimestamp 
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // Firebase 설정값 유지
+    // 지시해주신 Firebase 설정값 (절대 변경 안 함)
     const firebaseConfig = {
       apiKey: "AIzaSyBZwgrGLC6kFDnClQj85kcplDJMqZTvfjI",
       authDomain: "sf-project-f3074.firebaseapp.com",
@@ -382,9 +378,11 @@
       appId: "1:209281067044:web:255fa8bd24af46c19990b1"
     };
 
+    // Firebase 초기화
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    // 전역 객체로 함수 연결
     window.db = db;
     window.firestoreModule = { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp };
   </script>
@@ -402,10 +400,10 @@
       <span class="material-symbols-outlined">person_add</span> 학생 등록
     </button>
     <button class="nav-btn" onclick="switchPage('listPage', this)">
-      <span class="material-symbols-outlined">list_alt</span> 학생 리스트
+      <span class="material-symbols-outlined">list_alt</span> 리스트 조회
     </button>
     <button class="nav-btn" onclick="switchPage('boardPage', this)">
-      <span class="material-symbols-outlined">forum</span> 커뮤니티
+      <span class="material-symbols-outlined">forum</span> 의견 게시판
     </button>
   </div>
 
@@ -510,7 +508,7 @@
     </div>
 
     <div class="card">
-      <h2><span class="material-symbols-outlined">dynamic_feed</span> 커뮤니티 게시판 (최신순)</h2>
+      <h2><span class="material-symbols-outlined">dynamic_feed</span> 의견 목록 (최신순)</h2>
       <div id="feedbackList" class="scroll-list">
         <p style="text-align:center; color: var(--outline); padding: 20px 0;">의견을 불러오는 중입니다...</p>
       </div>
@@ -628,7 +626,7 @@
       });
     }
 
-    // 급식표 텍스트 AI 분석 함수
+    // 급식표 텍스트 AI 분석 함수 (백엔드 /api/generate 호출 유지)
     async function analyzeText() {
       const menuText = document.getElementById('menuTextInput').value.trim();
       const statusDiv = document.getElementById('status');
@@ -643,7 +641,6 @@
       statusDiv.innerText = 'AI 분석 중... 잠시만 기다려 주세요.';
 
       try {
-        // [검토 사항 3/4] 서버리스 함수 호출 유지
         const response = await fetch('/api/generate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -670,7 +667,9 @@
       }
     }
 
-    // Firebase 게시판 로직
+    // -------------------------------------------------------------
+    // Firebase Firestore 게시판 로직 유지
+    // -------------------------------------------------------------
     let isBoardInitialized = false;
 
     document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
