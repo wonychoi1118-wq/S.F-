@@ -27,114 +27,63 @@
       
       --primary: #006130;
       --on-primary: #ffffff;
-      --primary-container: #107c41;
-      
       --secondary: #0060ab;
-      --on-secondary: #ffffff;
-      
       --tertiary: #c83600;
       --tertiary-container: #ffeae4;
-      --on-tertiary-container: #3b0900;
-      
       --error: #ba1a1a;
 
       --radius-sm: 4px;
       --radius-md: 8px;
       --radius-lg: 16px;
-      --radius-full: 9999px;
     }
 
     * { box-sizing: border-box; }
     
     body { 
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Plus Jakarta Sans', Tahoma, sans-serif;
       margin: 0; 
       padding: 0;
       background-color: var(--background); 
       color: var(--on-surface); 
       -webkit-font-smoothing: antialiased;
-      /* 하단 네비게이션 및 AI 플로팅 바 공간 확보 */
-      padding-bottom: 180px; 
+      padding-bottom: 90px; /* 하단 네비게이션 여백만 유지 */
     }
 
     /* Top App Bar */
     .top-app-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 20px;
-      background-color: var(--surface);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 20px; background-color: var(--surface);
+      position: sticky; top: 0; z-index: 100;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
-    .top-app-bar .logo-area {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--on-surface);
-      font-weight: 700;
-      font-size: 18px;
-    }
-    .top-app-bar .actions {
-      display: flex;
-      gap: 16px;
-      color: var(--on-surface-variant);
-    }
-    .top-app-bar .material-symbols-outlined { cursor: pointer; }
+    .top-app-bar .brand { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 18px; }
+    .top-app-bar .actions { display: flex; gap: 16px; color: var(--on-surface-variant); cursor: pointer; }
 
     /* Page Sections */
-    .page { display: none; padding: 16px; max-width: 800px; margin: 0 auto; }
+    .page { display: none; padding: 20px; max-width: 800px; margin: 0 auto; }
     .page.active { display: block; }
-
-    /* Headers */
-    .section-header {
-      margin-bottom: 24px;
-    }
-    .section-header h1 {
-      font-size: 24px;
-      font-weight: 700;
-      margin: 0 0 4px 0;
-      letter-spacing: -0.02em;
-    }
-    .section-header p {
-      font-size: 14px;
-      color: var(--on-surface-variant);
-      margin: 0;
-    }
+    
+    .section-header { margin-bottom: 24px; }
+    .section-header h1 { font-size: 24px; font-weight: 700; margin: 0 0 4px 0; letter-spacing: -0.02em; }
+    .section-header p { font-size: 14px; color: var(--on-surface-variant); margin: 0; }
 
     /* Cards */
     .card { 
-      background: var(--surface); 
-      padding: 24px 16px; 
-      border-radius: var(--radius-lg); 
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02); 
-      margin-bottom: 16px; 
+      background: var(--surface); padding: 24px 16px; 
+      border-radius: var(--radius-lg); border: 1px solid var(--surface-container);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02); margin-bottom: 16px; 
     }
     
     /* Forms */
     .form-group { margin-bottom: 16px; }
     label { 
-      display: flex; 
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 8px; 
-      font-size: 12px;
-      font-weight: 700; 
-      color: var(--on-surface-variant); 
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      display: flex; align-items: center; gap: 6px; margin-bottom: 8px; 
+      font-size: 12px; font-weight: 700; color: var(--on-surface-variant); 
     }
     input, select, textarea { 
-      width: 100%; 
-      padding: 14px; 
-      border: 1px solid var(--outline-variant); 
-      border-radius: var(--radius-md); 
-      font-size: 14px; 
-      font-family: inherit;
-      background-color: var(--surface);
-      color: var(--on-surface);
+      width: 100%; padding: 14px; border: 1px solid var(--outline-variant); 
+      border-radius: var(--radius-md); font-size: 14px; font-family: inherit;
+      background-color: var(--surface); color: var(--on-surface);
       transition: border-color 0.2s;
     }
     input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); }
@@ -142,248 +91,86 @@
 
     /* Buttons */
     .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      border: none;
-      border-radius: var(--radius-md);
-      font-weight: 600;
-      font-size: 15px;
-      padding: 14px;
-      width: 100%;
-      cursor: pointer;
-      transition: opacity 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      border: none; border-radius: var(--radius-md); font-weight: 600; font-size: 15px; 
+      padding: 14px; width: 100%; cursor: pointer; transition: opacity 0.2s;
     }
     .btn:hover { opacity: 0.9; }
     .btn-primary { background-color: var(--primary); color: var(--on-primary); }
     .btn-secondary { background-color: var(--secondary); color: var(--on-secondary); }
-    .btn-outline { 
-      background-color: transparent; 
-      border: 1px solid var(--outline-variant); 
-      color: var(--on-surface); 
+
+    /* 간소화된 AI 분석 바 (학생관리 탭 전용) */
+    .ai-inline-card {
+      background: #eaf3ff; border: 1px solid #cce0ff;
+      padding: 16px; border-radius: var(--radius-lg); margin-bottom: 20px;
     }
+    .ai-inline-card .ai-header {
+      display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 700; color: var(--secondary); margin-bottom: 12px;
+    }
+    .ai-input-wrap { display: flex; gap: 8px; }
+    .ai-input-wrap textarea { flex: 1; height: 50px; min-height: 50px; margin: 0; padding: 12px; font-size: 13px; border-color: #a3c9ff; }
+    .ai-input-wrap button { width: auto; padding: 0 16px; white-space: nowrap; height: 50px; margin: 0; }
+    .ai-status { font-weight: 700; font-size: 14px; margin-top: 10px; color: var(--secondary); }
+    .ai-detected { font-size: 13px; margin-top: 4px; color: var(--text-main); }
 
     /* Student List & Filters */
-    .filter-container {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-    .filter-container select { flex: 1; padding: 12px; font-weight: 500; }
+    .filter-container { display: flex; gap: 8px; margin-bottom: 16px; }
+    .filter-container select { flex: 1; padding: 12px; }
     
     .toggle-warning-btn {
-      width: 100%;
-      padding: 12px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--outline-variant);
-      background: var(--surface);
-      color: var(--on-surface);
-      font-weight: 600;
-      font-size: 14px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      margin-bottom: 24px;
-      transition: all 0.2s;
+      width: 100%; padding: 12px; border-radius: var(--radius-md);
+      border: 1px solid var(--outline-variant); background: var(--surface); color: var(--on-surface);
+      font-weight: 600; font-size: 14px; display: flex; justify-content: center; align-items: center; gap: 6px;
+      cursor: pointer; margin-bottom: 24px; transition: all 0.2s;
     }
-    .toggle-warning-btn.active {
-      background: var(--tertiary);
-      color: var(--on-tertiary);
-      border-color: var(--tertiary);
-    }
+    .toggle-warning-btn.active { background: var(--tertiary); color: var(--on-tertiary); border-color: var(--tertiary); }
 
     /* Student Card Design */
     .student-card {
-      background: var(--surface);
-      border: 1px solid var(--surface-container-high);
-      border-radius: var(--radius-md);
-      padding: 16px;
-      margin-bottom: 12px;
-      position: relative;
+      background: var(--surface); border: 1px solid var(--surface-container-high);
+      border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px;
     }
-    .student-card .info-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 4px;
-    }
-    .student-card .name {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--on-surface);
-    }
-    .student-card .details {
-      font-size: 14px;
-      color: var(--on-surface-variant);
-    }
-    .student-card .chevron {
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--outline-variant);
-    }
-
-    /* High Risk Alert Card */
-    .student-card.high-risk {
-      background-color: var(--tertiary-container);
-      border: 1px solid var(--tertiary);
-    }
-    .badge-high-risk {
-      background: var(--tertiary);
-      color: var(--on-tertiary);
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px 8px;
-      border-radius: var(--radius-sm);
-    }
-    .alert-message {
-      color: var(--tertiary);
-      font-size: 14px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      margin-top: 8px;
-    }
+    .student-card.high-risk { background-color: var(--tertiary-container); border: 1px solid var(--tertiary); }
+    
+    .student-card .info-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .student-card .name { font-size: 16px; font-weight: 700; color: var(--on-surface); }
+    .student-card .details { font-size: 14px; color: var(--on-surface-variant); }
+    
+    .badge-high-risk { background: var(--tertiary); color: var(--on-tertiary); font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: var(--radius-sm); }
+    .alert-message { color: var(--tertiary); font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 4px; margin-top: 8px; }
 
     /* Community Board */
-    .empty-state {
-      text-align: center;
-      padding: 48px 20px;
-      background: var(--surface);
-      border-radius: var(--radius-lg);
-      border: 1px dashed var(--outline-variant);
-    }
-    .empty-state .material-symbols-outlined {
-      font-size: 48px;
-      color: var(--outline-variant);
-      margin-bottom: 16px;
-    }
-    .empty-state h3 {
-      font-size: 16px;
-      font-weight: 700;
-      margin: 0 0 8px 0;
-    }
-    .empty-state p {
-      font-size: 14px;
-      color: var(--on-surface-variant);
-      margin: 0;
-      line-height: 1.5;
-    }
+    .empty-state { text-align: center; padding: 48px 20px; border-radius: var(--radius-lg); border: 1px dashed var(--outline-variant); background: var(--surface); }
+    .empty-state .material-symbols-outlined { font-size: 48px; color: var(--outline-variant); margin-bottom: 16px; }
+    .empty-state h3 { font-size: 16px; font-weight: 700; margin: 0 0 8px 0; }
+    .empty-state p { font-size: 14px; color: var(--on-surface-variant); margin: 0; line-height: 1.5; }
 
-    .feedback-card {
-      background: var(--surface);
-      border: 1px solid var(--surface-container-high);
-      border-radius: var(--radius-md);
-      padding: 16px;
-      margin-bottom: 12px;
-    }
-    .feedback-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
+    .feedback-card { background: var(--surface); border: 1px solid var(--surface-container-high); border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px; }
+    .feedback-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
     .feedback-author { font-weight: 700; font-size: 14px; color: var(--secondary); display: flex; align-items: center; gap: 4px;}
     .feedback-date { font-size: 12px; color: var(--outline); }
-    .feedback-content { font-size: 14px; line-height: 1.5; white-space: pre-wrap; color: var(--on-surface); }
+    .feedback-content { font-size: 14px; line-height: 1.5; white-space: pre-wrap; }
 
-    /* Floating AI Analysis Bar */
-    .ai-analysis-bar {
-      position: fixed;
-      bottom: 70px;
-      left: 0;
-      right: 0;
-      background: var(--surface);
-      padding: 16px;
-      box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
-      border-top: 1px solid var(--surface-container);
-      z-index: 90;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .ai-header {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 12px;
-    }
-    .ai-input-group {
-      display: flex;
-      gap: 8px;
-    }
-    .ai-input-group textarea {
-      flex: 1;
-      height: 48px;
-      padding: 12px;
-      margin: 0;
-      resize: none;
-    }
-    .ai-input-group button {
-      width: auto;
-      min-width: 110px;
-      padding: 0 16px;
-      height: 48px;
-      margin: 0;
-    }
-    .ai-status {
-      margin-top: 8px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    /* Bottom Navigation */
+    /* Bottom Navigation (설정 탭 제거) */
     .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 70px;
-      background: var(--surface);
-      border-top: 1px solid var(--surface-container);
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      z-index: 100;
+      position: fixed; bottom: 0; left: 0; right: 0; height: 70px;
+      background: var(--surface); border-top: 1px solid var(--surface-container);
+      display: flex; justify-content: space-around; align-items: center; z-index: 100;
       box-shadow: 0 -2px 10px rgba(0,0,0,0.02);
     }
     .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: var(--outline);
-      background: none;
-      border: none;
-      cursor: pointer;
-      flex: 1;
-      height: 100%;
-      padding: 8px 0;
-      transition: color 0.2s;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: var(--outline); background: none; border: none; cursor: pointer; flex: 1; height: 100%;
     }
-    .nav-item span.label {
-      font-size: 11px;
-      font-weight: 600;
-      margin-top: 4px;
-    }
-    .nav-item.active {
-      color: var(--primary);
-    }
+    .nav-item span.label { font-size: 11px; font-weight: 600; margin-top: 4px; }
+    .nav-item.active { color: var(--primary); }
   </style>
 
-  <!-- Firebase SDK (Modular Version) -->
+  <!-- Firebase SDK (설정 유지) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // 사용자 제공 파이어베이스 설정 반영
     const firebaseConfig = {
       apiKey: "AIzaSyBZwgrGLC6kFDnClQj85kcplDJMqZTvfjI",
       authDomain: "sf-project-f3074.firebaseapp.com",
@@ -404,10 +191,7 @@
 
   <!-- Top App Bar -->
   <header class="top-app-bar">
-    <div class="logo-area">
-      <span class="material-symbols-outlined">security</span>
-      s.f
-    </div>
+    <div class="brand"><span class="material-symbols-outlined">security</span> VitalSafe</div>
     <div class="actions">
       <span class="material-symbols-outlined">search</span>
       <span class="material-symbols-outlined">notifications</span>
@@ -417,17 +201,17 @@
   <!-- 1. 학생 등록 페이지 -->
   <main id="registerPage" class="page active">
     <div class="section-header">
-      <h1>신규 등록</h1>
-      <p>학생 정보 등록</p>
+      <h1>학생 등록</h1>
+      <p>신규 학생 프로필 추가</p>
     </div>
 
     <div class="card">
       <form id="studentForm">
         <div class="form-group">
-          <label><span class="material-symbols-outlined" style="font-size:16px;">school</span> 학년 반</label>
+          <label><span class="material-symbols-outlined" style="font-size:16px;">school</span> 학년 반 번호</label>
           <div class="input-row">
-            <input type="number" id="grade" placeholder="학년(1~6)" required min="1" max="6">
-            <input type="number" id="classNum" placeholder="반(1~12)" required min="1" max="12">
+            <input type="number" id="grade" placeholder="학년" required min="1" max="6">
+            <input type="number" id="classNum" placeholder="반" required min="1" max="12">
             <input type="number" id="studentNum" placeholder="번호" required min="1">
           </div>
         </div>
@@ -436,20 +220,16 @@
           <input type="text" id="name" placeholder="이름을 입력하세요" required>
         </div>
         <div class="form-group">
-          <label><span class="material-symbols-outlined" style="font-size:16px;">medical_information</span> 알레르기 유형</label>
+          <label><span class="material-symbols-outlined" style="font-size:16px;">medical_information</span> 학생 유형 (기존 기능 우선)</label>
           <select id="type">
-            <option value="알레르기">알레르기 선택</option>
-            <option value="땅콩 / 견과류">땅콩 / 견과류</option>
-            <option value="우유 / 유제품">우유 / 유제품</option>
-            <option value="난류 (계란)">난류 (계란)</option>
-            <option value="갑각류 / 해산물">갑각류 / 해산물</option>
-            <option value="밀 / 글루텐">밀 / 글루텐</option>
-            <option value="기타 (직접 입력)">기타 (직접 입력)</option>
+            <option value="알레르기">알레르기</option>
+            <option value="종교">종교</option>
+            <option value="기타">기타</option>
           </select>
         </div>
         <div class="form-group">
           <label><span class="material-symbols-outlined" style="font-size:16px;">format_list_numbered</span> 식품 번호 입력</label>
-          <input type="text" id="restrictedFoods" placeholder="식단표에 기재된 번호를 콤마(,)로 구분하여 입력해 주세요.">
+          <input type="text" id="restrictedFoods" placeholder="식단표에 기재된 번호를 콤마(,)로 구분 (예: 1, 5)">
         </div>
         <button type="submit" class="btn btn-primary">
           <span class="material-symbols-outlined">how_to_reg</span> 학생 등록하기
@@ -458,11 +238,22 @@
     </div>
   </main>
 
-  <!-- 2. 학생 리스트 페이지 -->
+  <!-- 2. 학생 관리 리스트 페이지 -->
   <main id="listPage" class="page">
     <div class="section-header">
       <h1>학생 관리</h1>
-      <p>전체 명단 및 기록 확인</p>
+      <p>전체 명단 및 안전 기록 확인</p>
+    </div>
+
+    <!-- 간소화된 AI 분석 바 ('학생관리' 탭 내부 배치) -->
+    <div class="ai-inline-card">
+      <div class="ai-header"><span class="material-symbols-outlined">auto_awesome</span> 오늘의 식단 AI 분석</div>
+      <div class="ai-input-wrap">
+        <textarea id="menuTextInput" placeholder="숫자와 함께 식단표 입력 (예: 돈육김치볶음(5,9,10))"></textarea>
+        <button onclick="analyzeText()" class="btn btn-secondary">분석</button>
+      </div>
+      <div id="status" class="ai-status"></div>
+      <div id="detectedInfo" class="ai-detected"></div>
     </div>
 
     <div class="filter-container">
@@ -485,15 +276,19 @@
         <option value="6">6반</option>
         <option value="7">7반</option>
         <option value="8">8반</option>
+        <option value="9">9반</option>
+        <option value="10">10반</option>
+        <option value="11">11반</option>
+        <option value="12">12반</option>
       </select>
     </div>
 
     <button id="toggleWarningFilterBtn" class="toggle-warning-btn" onclick="toggleWarningFilter()">
-      <span class="material-symbols-outlined">warning</span> 주의 대상만 보기
+      <span class="material-symbols-outlined">warning</span> 주의 대상만 보기: OFF
     </button>
 
     <div id="studentListContainer">
-      <!-- JS로 리스트 렌더링 -->
+      <!-- JS로 렌더링 -->
     </div>
   </main>
 
@@ -510,7 +305,7 @@
           <input type="text" id="feedbackAuthor" placeholder="작성자명 (예: 김선생님)" required>
         </div>
         <div class="form-group">
-          <textarea id="feedbackContent" rows="3" placeholder="학교 급식 알레르기 관련 최신 정보를 업데이트해 보세요." required></textarea>
+          <textarea id="feedbackContent" rows="3" placeholder="앱 사용 의견이나 공지사항을 작성해보세요!" required></textarea>
         </div>
         <button type="submit" class="btn btn-secondary">
           <span class="material-symbols-outlined">edit</span> 글쓰기
@@ -527,19 +322,7 @@
     </div>
   </main>
 
-  <!-- 하단 플로팅 AI 분석 바 -->
-  <div class="ai-analysis-bar">
-    <div class="ai-header">
-      <span class="material-symbols-outlined">auto_awesome</span> 오늘의 식단 AI 분석
-    </div>
-    <div class="ai-input-group">
-      <textarea id="menuTextInput" placeholder="오늘의 식단표를 숫자와 함께 입력하세요 (예: 쇠고기미역국(5,6,16), 제육볶음(5,10))"></textarea>
-      <button onclick="analyzeText()" class="btn btn-primary">AI 분석 실행</button>
-    </div>
-    <div id="aiStatus" class="ai-status"></div>
-  </div>
-
-  <!-- 하단 네비게이션 -->
+  <!-- 하단 네비게이션 (설정 탭 제거, 3개 탭 유지) -->
   <nav class="bottom-nav">
     <button class="nav-item active" onclick="switchPage('registerPage', this)">
       <span class="material-symbols-outlined">person_add</span>
@@ -553,10 +336,6 @@
       <span class="material-symbols-outlined">forum</span>
       <span class="label">게시판</span>
     </button>
-    <button class="nav-item">
-      <span class="material-symbols-outlined">settings</span>
-      <span class="label">설정</span>
-    </button>
   </nav>
 
   <script>
@@ -564,6 +343,7 @@
     let activeFoodNumbers = []; 
     let showOnlyWarning = false; 
 
+    // 하단 네비게이션 페이지 전환 로직
     function switchPage(pageId, btnElement) {
       document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
       document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
@@ -578,6 +358,7 @@
       }
     }
 
+    // 학생 등록
     document.getElementById('studentForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const grade = document.getElementById('grade').value;
@@ -587,9 +368,7 @@
       const type = document.getElementById('type').value;
       
       const rawFoods = document.getElementById('restrictedFoods').value;
-      const restrictedFoods = rawFoods.split(',')
-        .map(n => parseInt(n.trim()))
-        .filter(n => !isNaN(n));
+      const restrictedFoods = rawFoods.split(',').map(n => parseInt(n.trim())).filter(n => !isNaN(n));
 
       students.push({ grade, classNum, studentNum, name, type, restrictedFoods });
       
@@ -597,18 +376,22 @@
       document.getElementById('studentForm').reset();
     });
 
+    // 주의 대상만 보기
     function toggleWarningFilter() {
       showOnlyWarning = !showOnlyWarning;
       const btn = document.getElementById('toggleWarningFilterBtn');
       
       if (showOnlyWarning) {
+        btn.innerHTML = '<span class="material-symbols-outlined">warning</span> 주의 대상만 보기: ON';
         btn.classList.add('active');
       } else {
+        btn.innerHTML = '<span class="material-symbols-outlined">warning</span> 주의 대상만 보기: OFF';
         btn.classList.remove('active');
       }
       renderStudents();
     }
 
+    // 학생 리스트 기능 우선 렌더링
     function renderStudents() {
       const listContainer = document.getElementById('studentListContainer');
       const selectedGrade = document.getElementById('filterGrade').value;
@@ -625,47 +408,47 @@
       });
 
       if (filtered.length === 0) {
-        listContainer.innerHTML = '<div style="text-align:center; padding:40px 20px; color:var(--outline-variant);">검색된 학생이 없습니다.</div>';
+        listContainer.innerHTML = '<div style="text-align:center; padding:40px 20px; color:var(--outline-variant);">조건에 일치하는 학생이 없습니다.</div>';
         return;
       }
 
       filtered.forEach(s => {
         const hasConflict = s.restrictedFoods.some(num => activeFoodNumbers.includes(num));
-        
         const card = document.createElement('div');
         card.className = `student-card ${hasConflict ? 'high-risk' : ''}`;
         
-        const badgeHtml = hasConflict ? `<span class="badge-high-risk">High Risk</span>` : '';
+        const badgeHtml = hasConflict ? `<span class="badge-high-risk">HIGH RISK</span>` : '';
         const alertHtml = hasConflict 
           ? `<div class="alert-message"><span class="material-symbols-outlined" style="font-size:18px;">warning</span> 오늘 급식 주의 대상 학생!</div>`
           : `<div class="details" style="margin-top:4px;">특이사항 없음</div>`;
-        const restrictText = s.restrictedFoods.length > 0 ? `제한 식품 번호: ${s.restrictedFoods.join(', ')}` : '';
+        const restrictText = s.restrictedFoods.length > 0 ? `제한 식품 번호: ${s.restrictedFoods.join(', ')}` : '없음';
 
         card.innerHTML = `
           <div class="info-row">
-            <span class="name">[${s.studentNum}번] ${escapeHtml(s.name)} ${s.type !== '알레르기 선택' ? `(${escapeHtml(s.type)})` : ''}</span>
+            <span class="name">[${s.grade}-${s.classNum}반 ${s.studentNum}번] ${escapeHtml(s.name)} (${escapeHtml(s.type)})</span>
             ${badgeHtml}
           </div>
-          ${restrictText ? `<div class="details">${restrictText}</div>` : ''}
+          <div class="details">${restrictText}</div>
           ${alertHtml}
-          <span class="material-symbols-outlined chevron">chevron_right</span>
         `;
         listContainer.appendChild(card);
       });
     }
 
-    // 서버리스 백엔드 연동 (/api/generate)
+    // Vercel 서버리스 연동 AI 분석
     async function analyzeText() {
       const menuText = document.getElementById('menuTextInput').value.trim();
-      const statusDiv = document.getElementById('aiStatus');
+      const statusDiv = document.getElementById('status');
+      const detectedDiv = document.getElementById('detectedInfo');
 
       if (!menuText) {
-        alert('메뉴를 입력해 주세요.');
+        alert('식단표를 입력해 주세요.');
         return;
       }
 
       statusDiv.style.color = 'var(--secondary)';
-      statusDiv.innerText = 'AI 분석 진행 중...';
+      statusDiv.innerText = 'AI 분석 진행 중... 잠시만 기다려 주세요.';
+      detectedDiv.innerHTML = '';
 
       try {
         const response = await fetch('/api/generate', {
@@ -678,17 +461,16 @@
         if (response.ok) {
           activeFoodNumbers = data.numbers || [];
           statusDiv.style.color = 'var(--primary)';
-          statusDiv.innerText = `분석 완료! 오늘의 추출 알레르기 번호: [${activeFoodNumbers.join(', ')}]`;
-          renderStudents();
-          
-          setTimeout(() => { statusDiv.innerText = ''; }, 6000); 
+          statusDiv.innerText = `분석 완료!`;
+          detectedDiv.innerHTML = `<strong>오늘 급식 추출 알레르기 번호:</strong> [${activeFoodNumbers.join(', ')}]`;
+          renderStudents(); // 리스트 자동 갱신
         } else {
           statusDiv.style.color = 'var(--error)';
-          statusDiv.innerText = '오류: ' + (data.error || '알 수 없음');
+          statusDiv.innerText = '오류: ' + (data.error || '알 수 없는 오류');
         }
       } catch (err) {
         statusDiv.style.color = 'var(--error)';
-        statusDiv.innerText = '분석 에러 발생';
+        statusDiv.innerText = '분석 에러가 발생했습니다.';
       }
     }
 
@@ -711,9 +493,8 @@
         });
         document.getElementById('feedbackContent').value = '';
       } catch (error) {
-  console.error("상세 에러:", error);
-  alert('등록 오류: ' + error.message);
-}
+        alert('등록 오류가 발생했습니다. 권한을 확인하세요.');
+      }
     });
 
     function initBoardListener() {
