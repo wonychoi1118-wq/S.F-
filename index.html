@@ -3,103 +3,326 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>급식 알레르기 학생 관리 앱</title>
+  <title>VitalSafe - 급식 알레르기 학생 관리 앱</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
   <style>
-    * { box-sizing: border-box; }
-    body { 
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-      margin: 0; 
-      padding: 20px; 
-      padding-bottom: 90px; /* 하단 플로팅 바 여백 */
-      background-color: #f4f7f6; 
-      color: #333; 
+    :root {
+      --surface: #faf9f8;
+      --surface-container-low: #f4f3f2;
+      --surface-container: #efeeed;
+      --on-surface: #1a1c1c;
+      --on-surface-variant: #3f4940;
+      --outline: #6f7a6f;
+      --outline-variant: #becabd;
+      
+      --primary: #006130;
+      --on-primary: #ffffff;
+      --primary-container: #107c41;
+      
+      --secondary: #0060ab;
+      --on-secondary: #ffffff;
+      
+      --tertiary: #c83600;
+      --tertiary-container: #ffeae4;
+      --on-tertiary-container: #3b0900;
+      
+      --error: #ba1a1a;
+      --error-container: #ffdad6;
+      --on-error-container: #410002;
+
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
     }
-    h1 { color: #2c3e50; text-align: center; margin-bottom: 20px; }
+
+    * { box-sizing: border-box; }
     
-    /* 네비게이션 버튼 */
-    .nav-container { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; }
-    .nav-btn { width: auto; padding: 10px 24px; font-size: 16px; font-weight: bold; background-color: #7f8c8d; color: white; border: none; border-radius: 6px; cursor: pointer; transition: 0.2s; }
-    .nav-btn.active { background-color: #2c3e50; box-shadow: 0 4px 6px rgba(0,0,0,0.15); }
-    .nav-btn:hover { opacity: 0.9; }
+    body { 
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0; 
+      padding: 16px; 
+      padding-bottom: 110px; /* 플로팅 바 공간 확보 */
+      background-color: var(--surface); 
+      color: var(--on-surface); 
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .app-title { 
+      font-size: 24px; 
+      font-weight: 700; 
+      color: var(--primary); 
+      margin: 0 0 4px 0;
+      letter-spacing: -0.02em;
+    }
+    .app-subtitle {
+      font-size: 13px;
+      color: var(--on-surface-variant);
+      margin: 0;
+    }
+    
+    /* 탭 네비게이션 */
+    .nav-container { 
+      display: flex; 
+      justify-content: center; 
+      gap: 8px; 
+      margin-bottom: 20px; 
+      background: var(--surface-container-low);
+      padding: 4px;
+      border-radius: var(--radius-md);
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .nav-btn { 
+      flex: 1;
+      padding: 10px 16px; 
+      font-size: 14px; 
+      font-weight: 600; 
+      background-color: transparent; 
+      color: var(--on-surface-variant); 
+      border: none; 
+      border-radius: var(--radius-sm); 
+      cursor: pointer; 
+      transition: all 0.2s ease; 
+    }
+    .nav-btn.active { 
+      background-color: var(--secondary); 
+      color: var(--on-secondary);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08); 
+    }
 
     /* 페이지 세션 */
     .page { display: none; max-width: 800px; margin: 0 auto; }
     .page.active { display: block; }
 
-    .card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.08); margin-bottom: 20px; }
-    form div { margin-bottom: 15px; }
-    label { display: block; margin-bottom: 6px; font-weight: bold; color: #34495e; }
-    input, select, button, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
-    button.submit-btn { background-color: #3498db; color: white; border: none; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 10px; }
-    button.submit-btn:hover { background-color: #2980b9; }
+    /* 모던 카드 UI */
+    .card { 
+      background: #ffffff; 
+      padding: 20px; 
+      border-radius: var(--radius-lg); 
+      border: 1px solid var(--surface-container);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03); 
+      margin-bottom: 16px; 
+    }
+    .card h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--on-surface);
+      margin-top: 0;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-    /* 스크롤형 학생 리스트 */
-    .filter-container { display: flex; gap: 10px; margin-bottom: 15px; align-items: center; flex-wrap: wrap; }
-    .filter-container select { width: 120px; }
-    
-    .scroll-list { max-height: 450px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; padding: 12px; background: #fafafa; }
-    .student-card { border: 1px solid #e0e0e0; padding: 12px; margin-bottom: 10px; border-radius: 6px; background: #fff; transition: all 0.3s ease; }
-    
-    /* 빨간색 강조 표시 */
-    .student-card.highlight-red { background-color: #ffe6e6 !important; border: 2px solid #e74c3c !important; color: #c0392b !important; font-weight: bold; }
-    .warning-tag { color: #e74c3c; font-weight: bold; margin-top: 5px; display: inline-block; }
+    /* 폼 요소를 위한 스타일 */
+    form div { margin-bottom: 16px; }
+    label { 
+      display: block; 
+      margin-bottom: 6px; 
+      font-size: 12px;
+      font-weight: 700; 
+      color: var(--on-surface-variant); 
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    input, select, textarea { 
+      width: 100%; 
+      padding: 12px; 
+      border: 1px solid var(--outline-variant); 
+      border-radius: var(--radius-md); 
+      font-size: 14px; 
+      font-family: inherit;
+      background-color: #ffffff;
+      color: var(--on-surface);
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
 
-    /* 하단 고정 플로팅 바 */
+    button.submit-btn { 
+      background-color: var(--primary); 
+      color: var(--on-primary); 
+      border: none; 
+      border-radius: var(--radius-md);
+      font-weight: 600; 
+      cursor: pointer; 
+      font-size: 15px; 
+      padding: 12px;
+      margin-top: 8px; 
+      transition: opacity 0.2s;
+    }
+    button.submit-btn:hover { opacity: 0.9; }
+
+    /* 필터 제어 영역 */
+    .filter-container { 
+      display: flex; 
+      gap: 8px; 
+      margin-bottom: 16px; 
+      align-items: center; 
+      flex-wrap: wrap; 
+    }
+    .filter-container select { 
+      width: auto; 
+      flex: 1;
+      min-width: 100px;
+    }
+    
+    .scroll-list { 
+      max-height: 480px; 
+      overflow-y: auto; 
+      border-radius: var(--radius-md); 
+      padding: 4px; 
+    }
+
+    /* 학생 카드 */
+    .student-card { 
+      border: 1px solid var(--surface-container-high); 
+      padding: 14px 16px; 
+      margin-bottom: 10px; 
+      border-radius: var(--radius-md); 
+      background: #ffffff; 
+      transition: all 0.2s ease; 
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .student-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .student-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--on-surface);
+    }
+    .type-chip {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      background-color: var(--surface-container);
+      color: var(--on-surface-variant);
+    }
+    .restricted-info {
+      font-size: 13px;
+      color: var(--on-surface-variant);
+    }
+    
+    /* VitalSafe 알레르기 주의 강조 카드 (Red/Orange Alert) */
+    .student-card.highlight-red { 
+      background-color: var(--tertiary-container) !important; 
+      border: 2px solid var(--tertiary) !important; 
+      color: var(--on-tertiary-container) !important; 
+    }
+    .student-card.highlight-red .student-name {
+      color: var(--tertiary);
+    }
+    .warning-tag { 
+      color: var(--tertiary); 
+      font-weight: 700; 
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    /* 하단 고정 플로팅 바 (VitalSafe AI 메뉴 분석 전용) */
     .floating-bar {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background: white;
-      padding: 12px 20px;
-      box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.15);
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
+      background: #ffffff;
+      padding: 12px 16px;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+      border-top: 1px solid var(--surface-container);
       z-index: 1000;
       display: flex;
       gap: 10px;
       align-items: center;
+      max-width: 832px;
+      margin: 0 auto;
     }
     .floating-bar textarea {
       flex: 1;
-      height: 45px;
+      height: 48px;
       resize: none;
+      padding: 8px 12px;
+      font-size: 13px;
     }
     .floating-bar button {
       width: auto;
       white-space: nowrap;
-      height: 45px;
+      height: 48px;
       margin-top: 0;
+      padding: 0 18px;
+      background-color: var(--primary);
+    }
+
+    /* 토글 필터 버튼 */
+    #toggleWarningFilterBtn {
+      width: 100%;
+      background-color: var(--surface-container-high);
+      color: var(--on-surface);
+      padding: 10px 14px;
+      margin: 0;
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+    #toggleWarningFilterBtn.active {
+      background-color: var(--tertiary);
+      color: #ffffff;
+      border-color: var(--tertiary);
     }
   </style>
 </head>
 <body>
 
-  <h1>🏫 급식 식단 & 알레르기 학생 관리 시스템</h1>
+  <div class="app-header">
+    <h1 class="app-title">VitalSafe Mobile</h1>
+    <p class="app-subtitle">학교 급식 식단 & 알레르기 안전 관리 시스템</p>
+  </div>
 
   <div class="nav-container">
-    <button class="nav-btn active" onclick="switchPage('registerPage', this)">학생 등록 페이지</button>
+    <button class="nav-btn active" onclick="switchPage('registerPage', this)">학생 등록</button>
     <button class="nav-btn" onclick="switchPage('listPage', this)">학생 리스트 조회</button>
   </div>
 
   <div id="registerPage" class="page active">
     <div class="card">
-      <h2>📝 학생 정보 등록</h2>
+      <h2>📝 학생 프로필 등록</h2>
       <form id="studentForm">
         <div>
-          <label>학년 / 반 / 번호</label>
-          <div style="display: flex; gap: 10px;">
+          <label>소속 정보 (학년 / 반 / 번호)</label>
+          <div style="display: flex; gap: 8px;">
             <input type="number" id="grade" placeholder="학년(1~6)" required min="1" max="6">
             <input type="number" id="classNum" placeholder="반(1~12)" required min="1" max="12">
             <input type="number" id="studentNum" placeholder="번호" required min="1">
           </div>
         </div>
         <div>
-          <label>이름</label>
-          <input type="text" id="name" placeholder="학생 이름" required>
+          <label>학생 성명</label>
+          <input type="text" id="name" placeholder="학생 이름을 입력하세요" required>
         </div>
         <div>
-          <label>유형</label>
+          <label>제한 식단 유형</label>
           <select id="type">
             <option value="알레르기">알레르기</option>
             <option value="종교">종교</option>
@@ -107,20 +330,19 @@
           </select>
         </div>
         <div>
-          <label>못 먹는 식품 번호 (알레르기 유발식품 1~19번, 쉼표로 구분)</label>
+          <label>제한 식품 번호 (1~19번 유발물질, 쉼표 구분)</label>
           <input type="text" id="restrictedFoods" placeholder="예: 1, 5, 12">
         </div>
-        <button type="submit" class="submit-btn">학생 등록</button>
+        <button type="submit" class="submit-btn">학생 정보 저장</button>
       </form>
     </div>
   </div>
 
   <div id="listPage" class="page">
     <div class="card">
-      <h2>📋 학년 및 반별 학생 리스트</h2>
+      <h2>📋 학생 식단 관리 리스트</h2>
       
       <div class="filter-container">
-        <label style="margin: 0; width: auto;">필터 선택:</label>
         <select id="filterGrade" onchange="renderStudents()">
           <option value="all">전체 학년</option>
           <option value="1">1학년</option>
@@ -146,21 +368,21 @@
           <option value="12">12반</option>
         </select>
 
-        <button id="toggleWarningFilterBtn" onclick="toggleWarningFilter()" style="width: auto; background-color: #e74c3c; color: white; padding: 8px 12px; margin: 0; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+        <button id="toggleWarningFilterBtn" onclick="toggleWarningFilter()">
           ⚠️ 주의 대상만 보기: OFF
         </button>
       </div>
 
       <div id="studentList" class="scroll-list"></div>
       
-      <div id="status" style="margin-top: 12px; font-weight: bold;"></div>
-      <div id="detectedInfo" style="margin-top: 5px;"></div>
+      <div id="status" style="margin-top: 12px; font-size: 13px; font-weight: 600;"></div>
+      <div id="detectedInfo" style="margin-top: 4px; font-size: 13px;"></div>
     </div>
   </div>
 
   <div class="floating-bar">
     <textarea id="menuTextInput" placeholder="오늘의 급식 메뉴 입력 (예: 현미밥, 쇠고기미역국(16), 제육볶음(5,10))"></textarea>
-    <button onclick="analyzeText()" class="submit-btn" style="background-color: #27ae60;">AI 분석 실행</button>
+    <button onclick="analyzeText()" class="submit-btn">AI 분석 실행</button>
   </div>
 
   <script>
@@ -197,7 +419,7 @@
 
       students.push({ grade, classNum, studentNum, name, type, restrictedFoods });
       
-      alert('학생이 등록되었습니다.');
+      alert('학생 프로필이 등록되었습니다.');
       document.getElementById('studentForm').reset();
     });
 
@@ -208,10 +430,10 @@
       
       if (showOnlyWarning) {
         btn.innerText = '⚠️ 주의 대상만 보기: ON';
-        btn.style.backgroundColor = '#c0392b';
+        btn.classList.add('active');
       } else {
         btn.innerText = '⚠️ 주의 대상만 보기: OFF';
-        btn.style.backgroundColor = '#e74c3c';
+        btn.classList.remove('active');
       }
       
       renderStudents();
@@ -239,7 +461,7 @@
       });
 
       if (filtered.length === 0) {
-        listDiv.innerHTML = '<p style="text-align:center; color:#888;">등록된 학생이 없거나 조건에 일치하는 학생이 없습니다.</p>';
+        listDiv.innerHTML = '<p style="text-align:center; color:#6f7a6f; padding: 20px 0;">등록된 학생이 없거나 일치하는 정보가 없습니다.</p>';
         return;
       }
 
@@ -250,11 +472,14 @@
         card.className = `student-card ${hasConflict ? 'highlight-red' : ''}`;
         
         card.innerHTML = `
-          <strong>[${s.grade}학년 ${s.classNum}반 ${s.studentNum}번] ${s.name}</strong> 
-          <span>(${s.type})</span>
-          <br>
-          <small style="color: #666;">제한 식품 번호: ${s.restrictedFoods.length > 0 ? s.restrictedFoods.join(', ') : '없음'}</small>
-          ${hasConflict ? '<br><span class="warning-tag">⚠️ 오늘 급식 주의 대상 학생!</span>' : ''}
+          <div class="student-header">
+            <span class="student-name">[${s.grade}-${s.classNum}반 ${s.studentNum}번] ${s.name}</span>
+            <span class="type-chip">${s.type}</span>
+          </div>
+          <div class="restricted-info">
+            제한 식품 번호: ${s.restrictedFoods.length > 0 ? s.restrictedFoods.join(', ') : '없음'}
+          </div>
+          ${hasConflict ? '<div class="warning-tag">🚨오늘 급식 섭취 주의 대상 학생</div>' : ''}
         `;
         listDiv.appendChild(card);
       });
@@ -271,7 +496,7 @@
         return;
       }
 
-      statusDiv.style.color = '#333';
+      statusDiv.style.color = 'var(--on-surface-variant)';
       statusDiv.innerText = 'AI 분석 중... 잠시만 기다려 주세요.';
 
       try {
@@ -285,19 +510,19 @@
 
         if (response.ok) {
           activeFoodNumbers = data.numbers || [];
-          statusDiv.style.color = '#27ae60';
-          statusDiv.innerText = '분석 완료!';
-          detectedDiv.innerHTML = `<strong>오늘 급식 추출 알레르기 번호:</strong> [${activeFoodNumbers.join(', ')}]`;
+          statusDiv.style.color = 'var(--primary)';
+          statusDiv.innerText = 'AI 분석 완료!';
+          detectedDiv.innerHTML = `<strong>오늘 급식 추출 번호:</strong> [${activeFoodNumbers.join(', ')}]`;
           
-          // 리스트 갱신 (빨간색 강조 적용)
+          // 리스트 갱신 (주의 대상 강조 적용)
           renderStudents();
         } else {
-          statusDiv.style.color = '#e74c3c';
+          statusDiv.style.color = 'var(--error)';
           statusDiv.innerText = '오류 발생: ' + (data.error || '알 수 없는 오류');
         }
       } catch (err) {
         console.error(err);
-        statusDiv.style.color = '#e74c3c';
+        statusDiv.style.color = 'var(--error)';
         statusDiv.innerText = '분석 중 에러가 발생했습니다.';
       }
     }
