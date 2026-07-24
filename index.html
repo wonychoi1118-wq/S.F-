@@ -420,7 +420,7 @@
         const badgeHtml = hasConflict ? `<span class="badge-high-risk">HIGH RISK</span>` : '';
         const alertHtml = hasConflict 
           ? `<div class="alert-message"><span class="material-symbols-outlined" style="font-size:18px;">warning</span> 오늘 급식 주의 대상 학생!</div>`
-          : `<div class="details" style="margin-top:4px;">특이사항 없음</div>`;
+          : ``;
         const restrictText = s.restrictedFoods.length > 0 ? `제한 식품 번호: ${s.restrictedFoods.join(', ')}` : '없음';
 
         card.innerHTML = `
