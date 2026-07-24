@@ -11,6 +11,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: '급식 메뉴 텍스트가 필요합니다.' });
   }
 
+  // GEMINI_API_KEY 환경변수 읽기
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return res.status(500).json({ error: '서버에 GEMINI_API_KEY가 설정되어 있지 않습니다.' });
@@ -31,7 +32,7 @@ export default async function handler(req, res) {
     `;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.1-flash-lite',
+      model: 'gemini-2.5-flash',
       contents: prompt,
       config: {
         responseMimeType: 'application/json',
