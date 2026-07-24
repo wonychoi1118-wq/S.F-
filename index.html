@@ -3,16 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VitalSafe - 급식 알레르기 학생 관리 앱</title>
+  <title>VitalSafe - 급식 알레르기 안전 관리 시스템</title>
+  
+  <!-- Plus Jakarta Sans 폰트 및 Google Material Symbols 로드 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
   
   <style>
+    /* VitalSafe Design System Variables */
     :root {
-      --surface: #faf9f8;
-      --surface-container-low: #f4f3f2;
+      --background: #faf9f8;
+      --surface: #ffffff;
       --surface-container: #efeeed;
+      --surface-container-high: #e9e8e7;
+      
       --on-surface: #1a1c1c;
       --on-surface-variant: #3f4940;
       --outline: #6f7a6f;
@@ -20,7 +26,6 @@
       
       --primary: #006130;
       --on-primary: #ffffff;
-      --primary-container: #107c41;
       
       --secondary: #0060ab;
       --on-secondary: #ffffff;
@@ -30,8 +35,6 @@
       --on-tertiary-container: #3b0900;
       
       --error: #ba1a1a;
-      --error-container: #ffdad6;
-      --on-error-container: #410002;
 
       --radius-sm: 4px;
       --radius-md: 8px;
@@ -42,18 +45,20 @@
     * { box-sizing: border-box; }
     
     body { 
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       margin: 0; 
       padding: 16px; 
-      padding-bottom: 110px; /* 플로팅 바 공간 확보 */
-      background-color: var(--surface); 
+      padding-bottom: 110px; 
+      background-color: var(--background); 
       color: var(--on-surface); 
       -webkit-font-smoothing: antialiased;
     }
 
+    /* Header */
     .app-header {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
+      padding-top: 8px;
     }
     .app-title { 
       font-size: 24px; 
@@ -61,20 +66,24 @@
       color: var(--primary); 
       margin: 0 0 4px 0;
       letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
     .app-subtitle {
-      font-size: 13px;
+      font-size: 14px;
       color: var(--on-surface-variant);
       margin: 0;
     }
     
-    /* 탭 네비게이션 */
+    /* Navigation Tabs */
     .nav-container { 
       display: flex; 
       justify-content: center; 
-      gap: 8px; 
+      gap: 4px; 
       margin-bottom: 20px; 
-      background: var(--surface-container-low);
+      background: var(--surface-container);
       padding: 4px;
       border-radius: var(--radius-md);
       max-width: 800px;
@@ -83,7 +92,7 @@
     }
     .nav-btn { 
       flex: 1;
-      padding: 10px 16px; 
+      padding: 12px 8px; 
       font-size: 14px; 
       font-weight: 600; 
       background-color: transparent; 
@@ -91,39 +100,45 @@
       border: none; 
       border-radius: var(--radius-sm); 
       cursor: pointer; 
-      transition: all 0.2s ease; 
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
     }
     .nav-btn.active { 
-      background-color: var(--secondary); 
-      color: var(--on-secondary);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08); 
+      background-color: var(--surface); 
+      color: var(--secondary);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
     }
+    .nav-btn .material-symbols-outlined { font-size: 18px; }
 
-    /* 페이지 세션 */
+    /* Page Sections */
     .page { display: none; max-width: 800px; margin: 0 auto; }
     .page.active { display: block; }
 
-    /* 모던 카드 UI */
+    /* Cards */
     .card { 
-      background: #ffffff; 
-      padding: 20px; 
+      background: var(--surface); 
+      padding: 24px; 
       border-radius: var(--radius-lg); 
       border: 1px solid var(--surface-container);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03); 
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02); 
       margin-bottom: 16px; 
     }
     .card h2 {
       font-size: 18px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--on-surface);
       margin-top: 0;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
       display: flex;
       align-items: center;
       gap: 8px;
     }
+    .card h2 .material-symbols-outlined { color: var(--primary); }
 
-    /* 폼 요소를 위한 스타일 */
+    /* Forms & Inputs */
     form div { margin-bottom: 16px; }
     label { 
       display: block; 
@@ -132,16 +147,15 @@
       font-weight: 700; 
       color: var(--on-surface-variant); 
       letter-spacing: 0.05em;
-      text-transform: uppercase;
     }
     input, select, textarea { 
       width: 100%; 
-      padding: 12px; 
+      padding: 14px; 
       border: 1px solid var(--outline-variant); 
       border-radius: var(--radius-md); 
       font-size: 14px; 
       font-family: inherit;
-      background-color: #ffffff;
+      background-color: var(--surface);
       color: var(--on-surface);
       transition: border-color 0.2s;
     }
@@ -149,7 +163,9 @@
       outline: none;
       border-color: var(--primary);
     }
+    .input-group { display: flex; gap: 8px; }
 
+    /* Action Buttons */
     button.submit-btn { 
       background-color: var(--primary); 
       color: var(--on-primary); 
@@ -158,44 +174,48 @@
       font-weight: 600; 
       cursor: pointer; 
       font-size: 15px; 
-      padding: 12px;
+      padding: 14px;
       margin-top: 8px; 
+      width: 100%;
+      min-height: 48px;
       transition: opacity 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
     button.submit-btn:hover { opacity: 0.9; }
 
-    /* 필터 제어 영역 */
+    /* Filter Container */
     .filter-container { 
       display: flex; 
       gap: 8px; 
-      margin-bottom: 16px; 
+      margin-bottom: 20px; 
       align-items: center; 
       flex-wrap: wrap; 
     }
     .filter-container select { 
-      width: auto; 
       flex: 1;
-      min-width: 100px;
+      min-width: 110px;
+      padding: 12px;
     }
     
     .scroll-list { 
-      max-height: 480px; 
+      max-height: 500px; 
       overflow-y: auto; 
-      border-radius: var(--radius-md); 
-      padding: 4px; 
+      padding: 2px; 
     }
 
-    /* 학생 카드 */
+    /* Student List Cards */
     .student-card { 
       border: 1px solid var(--surface-container-high); 
-      padding: 14px 16px; 
-      margin-bottom: 10px; 
-      border-radius: var(--radius-md); 
-      background: #ffffff; 
-      transition: all 0.2s ease; 
+      padding: 16px; 
+      margin-bottom: 12px; 
+      border-radius: var(--radius-lg); 
+      background: var(--surface); 
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
     }
     .student-header {
       display: flex;
@@ -208,26 +228,29 @@
       color: var(--on-surface);
     }
     .type-chip {
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 700;
-      padding: 2px 8px;
+      padding: 4px 10px;
       border-radius: var(--radius-full);
       background-color: var(--surface-container);
       color: var(--on-surface-variant);
     }
     .restricted-info {
-      font-size: 13px;
+      font-size: 14px;
       color: var(--on-surface-variant);
     }
     
-    /* VitalSafe 알레르기 주의 강조 카드 (Red/Orange Alert) */
+    /* Allergy Warning Highlight (Tertiary/Alert) */
     .student-card.highlight-red { 
-      background-color: var(--tertiary-container) !important; 
-      border: 2px solid var(--tertiary) !important; 
-      color: var(--on-tertiary-container) !important; 
+      background-color: var(--tertiary-container); 
+      border: 2px solid var(--tertiary); 
     }
     .student-card.highlight-red .student-name {
       color: var(--tertiary);
+    }
+    .student-card.highlight-red .type-chip {
+      background-color: var(--tertiary);
+      color: #ffffff;
     }
     .warning-tag { 
       color: var(--tertiary); 
@@ -237,51 +260,60 @@
       align-items: center;
       gap: 4px;
       margin-top: 4px;
+      background: #ffffff;
+      padding: 4px 8px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--tertiary);
+      width: fit-content;
     }
 
-    /* 게시판 전용 카드 스타일 */
+    /* Feedback Cards */
     .feedback-card {
       border: 1px solid var(--surface-container-high);
-      padding: 14px 16px;
-      margin-bottom: 10px;
-      border-radius: var(--radius-md);
-      background: #ffffff;
+      padding: 16px;
+      margin-bottom: 12px;
+      border-radius: var(--radius-lg);
+      background: var(--surface);
     }
     .feedback-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 6px;
+      margin-bottom: 10px;
     }
     .feedback-author {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
-      color: var(--primary);
+      color: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
     .feedback-date {
-      font-size: 11px;
+      font-size: 12px;
       color: var(--outline);
     }
     .feedback-content {
       font-size: 14px;
       color: var(--on-surface);
+      line-height: 1.5;
       white-space: pre-wrap;
       word-break: break-all;
     }
 
-    /* 하단 고정 플로팅 바 (VitalSafe AI 메뉴 분석 전용) */
+    /* Floating Bar (AI Menu Analysis) */
     .floating-bar {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background: #ffffff;
-      padding: 12px 16px;
+      background: var(--surface);
+      padding: 16px;
       box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
       border-top: 1px solid var(--surface-container);
       z-index: 1000;
       display: flex;
-      gap: 10px;
+      gap: 12px;
       align-items: center;
       max-width: 832px;
       margin: 0 auto;
@@ -290,31 +322,35 @@
       flex: 1;
       height: 48px;
       resize: none;
-      padding: 8px 12px;
-      font-size: 13px;
+      padding: 12px;
+      font-size: 14px;
+      margin: 0;
     }
     .floating-bar button {
       width: auto;
       white-space: nowrap;
-      height: 48px;
+      min-height: 48px;
       margin-top: 0;
-      padding: 0 18px;
-      background-color: var(--primary);
+      padding: 0 24px;
     }
 
-    /* 토글 필터 버튼 */
+    /* Warning Filter Toggle Button */
     #toggleWarningFilterBtn {
       width: 100%;
-      background-color: var(--surface-container-high);
-      color: var(--on-surface);
-      padding: 10px 14px;
+      background-color: var(--surface-container);
+      color: var(--on-surface-variant);
+      padding: 14px;
       margin: 0;
       border: 1px solid var(--outline-variant);
       border-radius: var(--radius-md);
       cursor: pointer;
-      font-weight: 600;
-      font-size: 13px;
+      font-weight: 700;
+      font-size: 14px;
       transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
     #toggleWarningFilterBtn.active {
       background-color: var(--tertiary);
@@ -323,6 +359,7 @@
     }
   </style>
 
+  <!-- Firebase SDK (Modular Version) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { 
@@ -335,7 +372,7 @@
       serverTimestamp 
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // 지시해주신 Firebase 설정값
+    // Firebase 설정값 유지
     const firebaseConfig = {
       apiKey: "AIzaSyBZwgrGLC6kFDnClQj85kcplDJMqZTvfjI",
       authDomain: "sf-project-f3074.firebaseapp.com",
@@ -345,11 +382,9 @@
       appId: "1:209281067044:web:255fa8bd24af46c19990b1"
     };
 
-    // Firebase 초기화
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // 전역 객체로 함수 연결
     window.db = db;
     window.firestoreModule = { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp };
   </script>
@@ -357,23 +392,31 @@
 <body>
 
   <div class="app-header">
-    <h1 class="app-title">VitalSafe Mobile</h1>
+    <h1 class="app-title"><span class="material-symbols-outlined">health_and_safety</span> VitalSafe Mobile</h1>
     <p class="app-subtitle">학교 급식 식단 & 알레르기 안전 관리 시스템</p>
   </div>
 
+  <!-- 페이지 이동 네비게이션 -->
   <div class="nav-container">
-    <button class="nav-btn active" onclick="switchPage('registerPage', this)">학생 등록</button>
-    <button class="nav-btn" onclick="switchPage('listPage', this)">학생 리스트 조회</button>
-    <button class="nav-btn" onclick="switchPage('boardPage', this)">의견 게시판</button>
+    <button class="nav-btn active" onclick="switchPage('registerPage', this)">
+      <span class="material-symbols-outlined">person_add</span> 학생 등록
+    </button>
+    <button class="nav-btn" onclick="switchPage('listPage', this)">
+      <span class="material-symbols-outlined">list_alt</span> 학생 리스트
+    </button>
+    <button class="nav-btn" onclick="switchPage('boardPage', this)">
+      <span class="material-symbols-outlined">forum</span> 커뮤니티
+    </button>
   </div>
 
+  <!-- 1. 학생 정보 입력 페이지 -->
   <div id="registerPage" class="page active">
     <div class="card">
-      <h2>📝 학생 프로필 등록</h2>
+      <h2><span class="material-symbols-outlined">assignment_ind</span> 학생 프로필 등록</h2>
       <form id="studentForm">
         <div>
           <label>소속 정보 (학년 / 반 / 번호)</label>
-          <div style="display: flex; gap: 8px;">
+          <div class="input-group">
             <input type="number" id="grade" placeholder="학년(1~6)" required min="1" max="6">
             <input type="number" id="classNum" placeholder="반(1~12)" required min="1" max="12">
             <input type="number" id="studentNum" placeholder="번호" required min="1">
@@ -395,15 +438,19 @@
           <label>제한 식품 번호 (1~19번 유발물질, 쉼표 구분)</label>
           <input type="text" id="restrictedFoods" placeholder="예: 1, 5, 12">
         </div>
-        <button type="submit" class="submit-btn">학생 정보 저장</button>
+        <button type="submit" class="submit-btn">
+          <span class="material-symbols-outlined">save</span> 학생 정보 저장
+        </button>
       </form>
     </div>
   </div>
 
+  <!-- 2. 학년/반별 스크롤 리스트 페이지 -->
   <div id="listPage" class="page">
     <div class="card">
-      <h2>📋 학생 식단 관리 리스트</h2>
+      <h2><span class="material-symbols-outlined">fact_check</span> 학생 식단 관리 리스트</h2>
       
+      <!-- 조회 필터 및 주의 대상 토글 버튼 -->
       <div class="filter-container">
         <select id="filterGrade" onchange="renderStudents()">
           <option value="all">전체 학년</option>
@@ -431,20 +478,22 @@
         </select>
 
         <button id="toggleWarningFilterBtn" onclick="toggleWarningFilter()">
-          ⚠️ 주의 대상만 보기: OFF
+          <span class="material-symbols-outlined">warning</span> 주의 대상만 보기: OFF
         </button>
       </div>
 
+      <!-- 스크롤형 리스트 -->
       <div id="studentList" class="scroll-list"></div>
       
-      <div id="status" style="margin-top: 12px; font-size: 13px; font-weight: 600;"></div>
-      <div id="detectedInfo" style="margin-top: 4px; font-size: 13px;"></div>
+      <div id="status" style="margin-top: 16px; font-size: 14px; font-weight: 700;"></div>
+      <div id="detectedInfo" style="margin-top: 4px; font-size: 14px; color: var(--on-surface-variant);"></div>
     </div>
   </div>
 
+  <!-- 3. 사용자 의견 게시판 페이지 -->
   <div id="boardPage" class="page">
     <div class="card">
-      <h2>💬 사용자 의견 작성</h2>
+      <h2><span class="material-symbols-outlined">rate_review</span> 사용자 의견 작성</h2>
       <form id="feedbackForm">
         <div>
           <label>작성자 (교사명)</label>
@@ -454,27 +503,32 @@
           <label>의견 내용</label>
           <textarea id="feedbackContent" rows="3" placeholder="앱 사용 의견이나 건의사항을 남겨주세요." required></textarea>
         </div>
-        <button type="submit" class="submit-btn" style="background-color: var(--secondary);">의견 등록하기</button>
+        <button type="submit" class="submit-btn" style="background-color: var(--secondary);">
+          <span class="material-symbols-outlined">send</span> 의견 등록하기
+        </button>
       </form>
     </div>
 
     <div class="card">
-      <h2>📢 의견 목록 (최신순)</h2>
+      <h2><span class="material-symbols-outlined">dynamic_feed</span> 커뮤니티 게시판 (최신순)</h2>
       <div id="feedbackList" class="scroll-list">
         <p style="text-align:center; color: var(--outline); padding: 20px 0;">의견을 불러오는 중입니다...</p>
       </div>
     </div>
   </div>
 
+  <!-- 4. 하단 고정 플로팅 바 (급식 메뉴 입력 및 AI 분석) -->
   <div class="floating-bar">
     <textarea id="menuTextInput" placeholder="오늘의 급식 메뉴 입력 (예: 현미밥, 쇠고기미역국(16), 제육볶음(5,10))"></textarea>
-    <button onclick="analyzeText()" class="submit-btn">AI 분석 실행</button>
+    <button onclick="analyzeText()" class="submit-btn">
+      <span class="material-symbols-outlined">auto_awesome</span> AI 분석
+    </button>
   </div>
 
   <script>
     let students = [];
-    let activeFoodNumbers = []; // AI가 인식한 오늘 급식의 알레르기 번호들
-    let showOnlyWarning = false; // 주의 대상만 보기 상태 변수
+    let activeFoodNumbers = []; 
+    let showOnlyWarning = false; 
 
     // 페이지 전환 함수
     function switchPage(pageId, btnElement) {
@@ -517,10 +571,10 @@
       const btn = document.getElementById('toggleWarningFilterBtn');
       
       if (showOnlyWarning) {
-        btn.innerText = '⚠️ 주의 대상만 보기: ON';
+        btn.innerHTML = '<span class="material-symbols-outlined">emergency</span> 주의 대상만 보기: ON';
         btn.classList.add('active');
       } else {
-        btn.innerText = '⚠️ 주의 대상만 보기: OFF';
+        btn.innerHTML = '<span class="material-symbols-outlined">warning</span> 주의 대상만 보기: OFF';
         btn.classList.remove('active');
       }
       
@@ -539,17 +593,14 @@
         const matchGrade = selectedGrade === 'all' || s.grade === selectedGrade;
         const matchClass = selectedClass === 'all' || s.classNum === selectedClass;
         
-        // AI 식단 번호와 충돌 체크
         const hasConflict = s.restrictedFoods.some(num => activeFoodNumbers.includes(num));
-        
-        // 주의 대상만 보기 조건 체크
         const matchWarning = !showOnlyWarning || hasConflict;
 
         return matchGrade && matchClass && matchWarning;
       });
 
       if (filtered.length === 0) {
-        listDiv.innerHTML = '<p style="text-align:center; color:#6f7a6f; padding: 20px 0;">등록된 학생이 없거나 일치하는 정보가 없습니다.</p>';
+        listDiv.innerHTML = '<p style="text-align:center; color: var(--outline); padding: 30px 0;">조건에 일치하는 학생 데이터가 없습니다.</p>';
         return;
       }
 
@@ -559,15 +610,19 @@
         const card = document.createElement('div');
         card.className = `student-card ${hasConflict ? 'highlight-red' : ''}`;
         
+        const warningHtml = hasConflict 
+          ? `<div class="warning-tag"><span class="material-symbols-outlined" style="font-size:16px;">emergency</span> 오늘 급식 섭취 주의 대상</div>` 
+          : '';
+
         card.innerHTML = `
           <div class="student-header">
-            <span class="student-name">[${s.grade}-${s.classNum}반 ${s.studentNum}번] ${s.name}</span>
-            <span class="type-chip">${s.type}</span>
+            <span class="student-name">[${s.grade}-${s.classNum}반 ${s.studentNum}번] ${escapeHtml(s.name)}</span>
+            <span class="type-chip">${escapeHtml(s.type)}</span>
           </div>
           <div class="restricted-info">
-            제한 식품 번호: ${s.restrictedFoods.length > 0 ? s.restrictedFoods.join(', ') : '없음'}
+            제한 식품 번호: <strong>${s.restrictedFoods.length > 0 ? s.restrictedFoods.join(', ') : '없음'}</strong>
           </div>
-          ${hasConflict ? '<div class="warning-tag">🚨오늘 급식 섭취 주의 대상 학생</div>' : ''}
+          ${warningHtml}
         `;
         listDiv.appendChild(card);
       });
@@ -588,6 +643,7 @@
       statusDiv.innerText = 'AI 분석 중... 잠시만 기다려 주세요.';
 
       try {
+        // [검토 사항 3/4] 서버리스 함수 호출 유지
         const response = await fetch('/api/generate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -602,7 +658,6 @@
           statusDiv.innerText = 'AI 분석 완료!';
           detectedDiv.innerHTML = `<strong>오늘 급식 추출 번호:</strong> [${activeFoodNumbers.join(', ')}]`;
           
-          // 리스트 갱신 (주의 대상 강조 적용)
           renderStudents();
         } else {
           statusDiv.style.color = 'var(--error)';
@@ -615,12 +670,9 @@
       }
     }
 
-    // -------------------------------------------------------------
-    // Firebase Firestore 게시판 로직
-    // -------------------------------------------------------------
+    // Firebase 게시판 로직
     let isBoardInitialized = false;
 
-    // 1. 의견 쓰기 (Firestore addDoc)
     document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const author = document.getElementById('feedbackAuthor').value.trim();
@@ -648,7 +700,6 @@
       }
     });
 
-    // 2. 의견 실시간 최신순 불러오기 (Firestore onSnapshot + orderBy desc)
     function initBoardListener() {
       if (isBoardInitialized || !window.db || !window.firestoreModule) return;
       isBoardInitialized = true;
@@ -656,7 +707,6 @@
       const { collection, query, orderBy, onSnapshot } = window.firestoreModule;
       const feedbackListDiv = document.getElementById('feedbackList');
 
-      // 'feedbacks' 컬렉션을 createdAt 내림차순(최신순)으로 쿼리
       const q = query(collection(window.db, "feedbacks"), orderBy("createdAt", "desc"));
 
       onSnapshot(q, (snapshot) => {
@@ -670,16 +720,12 @@
         snapshot.forEach((doc) => {
           const data = doc.data();
           
-          // 날짜 포맷팅
           let dateStr = "방금 전";
           if (data.createdAt && data.createdAt.toDate) {
             const date = data.createdAt.toDate();
             dateStr = date.toLocaleString('ko-KR', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit'
+              year: 'numeric', month: '2-digit', day: '2-digit',
+              hour: '2-digit', minute: '2-digit'
             });
           }
 
@@ -687,7 +733,7 @@
           card.className = 'feedback-card';
           card.innerHTML = `
             <div class="feedback-header">
-              <span class="feedback-author">👤 ${escapeHtml(data.author)}</span>
+              <span class="feedback-author"><span class="material-symbols-outlined" style="font-size:18px;">account_circle</span> ${escapeHtml(data.author)}</span>
               <span class="feedback-date">${dateStr}</span>
             </div>
             <div class="feedback-content">${escapeHtml(data.content)}</div>
@@ -700,17 +746,11 @@
       });
     }
 
-    // HTML 특수문자 이스케이프 (보안 처리)
     function escapeHtml(str) {
       if (!str) return '';
-      return str.replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
 
-    // 페이지 진입 시 게시판 자동 리스너 시작
     window.addEventListener('load', () => {
       setTimeout(initBoardListener, 500);
     });
